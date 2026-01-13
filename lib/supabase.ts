@@ -17,9 +17,7 @@ export interface ConsultationRequest {
   privacy_agreed: boolean
   utm_source?: string
   utm_medium?: string
-  utm_campaign?: string
   utm_term?: string
-  utm_content?: string
   ip_address?: string
   user_agent?: string
   referrer?: string

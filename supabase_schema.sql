@@ -1,8 +1,7 @@
 -- 학점은행제 상담 신청 테이블
 CREATE TABLE consultation_requests (
     -- 기본 키
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    
+    id SERIAL PRIMARY KEY,    
     -- 신청자 기본 정보
     name VARCHAR(100) NOT NULL,
     phone VARCHAR(20) NOT NULL,
@@ -34,18 +33,16 @@ CREATE TABLE consultation_requests (
     
     -- 상담 관리
     consultation_status VARCHAR(20) DEFAULT 'new' CHECK (consultation_status IN ('new', 'contacted', 'in_progress', 'completed', 'cancelled')),
+    -- 메모
     memo TEXT,
-    contacted_at TIMESTAMP WITH TIME ZONE,
     
     -- 개인정보 동의
     privacy_agreed BOOLEAN DEFAULT false NOT NULL,
     
     -- 마케팅 추적 (Google Ads)
-    utm_source VARCHAR(100),
-    utm_medium VARCHAR(100),
-    utm_campaign VARCHAR(255),
-    utm_term VARCHAR(255),
-    utm_content VARCHAR(255),
+    utm_source VARCHAR(100), -- 구글,네이버,당근,인스타,카카오 등 광고 출처
+    utm_medium VARCHAR(100), -- 검색,배너,자연유입
+    utm_term VARCHAR(255), -- 검색 키워드
     
     -- 기술 정보
     ip_address INET,
@@ -62,7 +59,6 @@ CREATE INDEX idx_consultation_status ON consultation_requests(consultation_statu
 CREATE INDEX idx_created_at ON consultation_requests(created_at DESC);
 CREATE INDEX idx_phone ON consultation_requests(phone);
 CREATE INDEX idx_utm_source ON consultation_requests(utm_source);
-CREATE INDEX idx_utm_campaign ON consultation_requests(utm_campaign);
 CREATE INDEX idx_manager_code ON consultation_requests(manager_code);
 
 -- updated_at 자동 업데이트를 위한 함수
