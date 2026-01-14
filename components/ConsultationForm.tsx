@@ -156,7 +156,7 @@ export default function ConsultationForm() {
 
       if (result.success) {
         setSubmitted(true)
-        alert(`상담 신청이 완료되었습니다!\n담당자 ${result.manager_code}번이 배정되었습니다.\n빠른 시일 내에 연락드리겠습니다.`)
+        alert(`상담 신청이 완료되었습니다!\n빠른 시일 내에 연락드리겠습니다.`)
         
         // 폼 초기화
         setFormData({
@@ -170,6 +170,8 @@ export default function ConsultationForm() {
         
         // 통계 갱신
         fetchStats()
+        // 이 줄 추가!
+        window.location.reload()
       } else {
         alert(result.error || '오류가 발생했습니다. 다시 시도해주세요.')
       }
