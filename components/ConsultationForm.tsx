@@ -40,7 +40,7 @@ export default function ConsultationForm() {
   })
 
   const [stats, setStats] = useState({
-    remaining: 20,
+    remaining: 25,
     totalCount: 0
   })
 

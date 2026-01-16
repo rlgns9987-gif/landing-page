@@ -50,8 +50,8 @@ CREATE TABLE consultation_requests (
     referrer TEXT,
     
     -- 타임스탬프
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT (NOW() AT TIME ZONE 'Asia/Seoul') NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT (NOW() AT TIME ZONE 'Asia/Seoul') NOT NULL
 );
 
 -- 인덱스 생성 (조회 성능 최적화)
@@ -65,7 +65,7 @@ CREATE INDEX idx_manager_code ON consultation_requests(manager_code);
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
-    NEW.updated_at = TIMEZONE('utc'::text, NOW());
+    NEW.updated_at = NOW() AT TIME ZONE 'Asia/Seoul';
     RETURN NEW;
 END;
 $$ language 'plpgsql';
@@ -121,6 +121,13 @@ FOR DELETE
 TO authenticated
 USING (true);
 
+-- 5. 익명 사용자도 SELECT 가능 (통계 조회용)
+CREATE POLICY "Allow anonymous select"
+ON consultation_requests
+FOR SELECT
+TO anon
+USING (true);
+
 -- 코멘트 추가
 COMMENT ON TABLE consultation_requests IS '학점은행제 상담 신청 데이터';
 COMMENT ON COLUMN consultation_requests.consultation_status IS '상담 상태: new(신규), contacted(연락완료), in_progress(진행중), completed(완료), cancelled(취소)';
@@ -129,4 +136,3 @@ COMMENT ON COLUMN consultation_requests.final_education IS '최종학력 코드:
 COMMENT ON COLUMN consultation_requests.consultation_method IS '상담방식: 1(전화상담), 2(카카오톡상담)';
 COMMENT ON COLUMN consultation_requests.manager_code IS '담당자 코드: 1 또는 2 (홀수번째/짝수번째 신청 기준 자동배정)';
 COMMENT ON COLUMN consultation_requests.utm_source IS 'Google Ads 추적용 - 광고 소스';
-COMMENT ON COLUMN consultation_requests.utm_campaign IS 'Google Ads 추적용 - 캠페인명';

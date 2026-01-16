@@ -34,7 +34,7 @@ export default function Header() {
           {/* 로고 */}
           <div className="flex items-center gap-2">
             <div className="text-2xl md:text-3xl font-bold">
-              <span className="gradient-text">위드에듀</span>
+              <span className="gradient-text">모두에듀</span>
             </div>
             <div className={`hidden md:block text-sm ${scrolled ? 'text-gray-600' : 'text-gray-700'}`}>
               학점은행제 | 원격평생교육원

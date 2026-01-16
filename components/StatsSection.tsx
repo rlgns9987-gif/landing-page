@@ -13,8 +13,8 @@ export default function StatsSection() {
   const [stats, setStats] = useState<Stats>({
     totalCount: 0,
     todayCount: 0,
-    dailyLimit: 20,
-    remaining: 20
+    dailyLimit: 25,
+    remaining: 25
   })
   const [loading, setLoading] = useState(true)
 
@@ -50,7 +50,7 @@ export default function StatsSection() {
           {/* 누적 신청 수 */}
           <div className="card text-center animate-slide-up">
             <div className="text-5xl md:text-6xl font-bold gradient-text mb-4">
-              {loading ? '...' : stats.totalCount}
+              {loading ? '...' : stats.totalCount.toLocaleString()}
             </div>
             <div className="text-gray-600 font-medium text-lg">
               누적 신청 수
